@@ -16,18 +16,21 @@ function App() {
 
   console.log(repositories);
   async function handleAddRepository() {
-    const newRepositorie = {
+    const repository = await api.post("/repositories", {
       title: "Exercicicios JS",
       url: "https: //github.com/tatianasstavares/goStack-backEnd3",
       techs: ["node.js", "javaScript"],
-    };
-
-    await api.post("/repositories", newRepositorie);
-    setRepositories([...repositories, newRepositorie]);
+    });
+    setRepositories([...repositories, repository.data]);
   }
 
   async function handleRemoveRepository(id) {
-    // TODO
+    await api.delete(`repositories/${id}`);
+    setRepositories(
+      repositories.filter((repository) => {
+        return repository.id !== id;
+      })
+    );
   }
 
   return (
@@ -36,7 +39,9 @@ function App() {
         {repositories.map((repository) => (
           <li key={repository.id}>
             {repository.title}
-            <button onClick={() => handleRemoveRepository(1)}>Remover</button>
+            <button onClick={() => handleRemoveRepository(repository.id)}>
+              Remover
+            </button>
           </li>
         ))}
       </ul>
