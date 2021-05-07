@@ -16,7 +16,14 @@ function App() {
 
   console.log(repositories);
   async function handleAddRepository() {
-    // TODO
+    const newRepositorie = {
+      title: "Exercicicios JS",
+      url: "https: //github.com/tatianasstavares/goStack-backEnd3",
+      techs: ["node.js", "javaScript"],
+    };
+
+    await api.post("/repositories", newRepositorie);
+    setRepositories([...repositories, newRepositorie]);
   }
 
   async function handleRemoveRepository(id) {
